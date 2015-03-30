@@ -1,0 +1,27 @@
+{
+  "name": "gulp-ses",
+  "version": "1.0.0",
+  "description": "Send emails with Amazon Simple Email Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SamVerschueren/gulp-ses.git"
+  },
+  "keywords": [
+    "gulp",
+    "ses",
+    "nodemailer",
+    "mailer",
+    "aws",
+    "amazon"
+  ],
+  "author": "Sam Verschueren <sam.verschueren@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SamVerschueren/gulp-ses/issues"
+  },
+  "homepage": "https://github.com/SamVerschueren/gulp-ses"
+}

@@ -1,5 +1,41 @@
 # gulp-ses
-Send emails with Amazon Simple Email Service
+
+> Send emails with Amazon Simple Email Service
+
+# Installation
+
+> Not yet available
+
+```bash
+npm install gulp-ses
+```
+
+# Usage
+
+This example will send an email with ```doc.pdf``` as attachment.
+
+```JavaScript
+var gulp = require('gulp'),
+    mail = require('gulp-api-doc');
+
+gulp.task('mail', function() {
+    // Set AWS credentials
+    mail.setAccessKeyId('accessKeyID');
+    mail.setSecretAccessKey('secretAccessKey');
+
+    return gulp.src('doc.pdf')
+        .pipe(mail({
+            from: 'sender@company.com',
+            to: 'recipient@company.com',
+            subject: 'Subject of the email',
+            text: 'Body of the email'
+        }));
+});
+```
+
+# Contributors
+
+- Sam Verschueren (Author) [<sam.verschueren@gmail.com>]
 
 # License (MIT)
 Copyright (c) 2015 Sam Verschueren <sam.verschueren@gmail.com>

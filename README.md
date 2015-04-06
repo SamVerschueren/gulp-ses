@@ -12,17 +12,34 @@ npm install gulp-ses
 
 # Usage
 
-This example will send an email with ```doc.pdf``` as attachment.
+For sending email through ```SES```, you'll have to authorize by providing an access key ID and a secret access key.
+
+```
+var mail = require('gulp-ses');
+
+mail.setAccessKeyId('accessKeyId');
+mail.setSecretAccessKey('secretAccessKey');
+```
+
+If you are in a different region then ```us-east-1```, you'll have to specify the region as well.
+
+```
+mail.setRegion('eu-west-1');
+```
+
+If the mail is configured, you can start sending emails with attachments.
 
 ```JavaScript
 var gulp = require('gulp'),
-    mail = require('gulp-api-doc');
+    mail = require('gulp-ses');
 
 gulp.task('mail', function() {
     // Set AWS credentials
     mail.setAccessKeyId('accessKeyID');
     mail.setSecretAccessKey('secretAccessKey');
+    mail.setRegion('eu-west-1');
 
+    // Send the mail
     return gulp.src('doc.pdf')
         .pipe(mail({
             from: 'sender@company.com',
@@ -32,6 +49,8 @@ gulp.task('mail', function() {
         }));
 });
 ```
+
+This will send an email with ```doc.pdf``` attached as attachment.
 
 # Contributors
 

@@ -14,9 +14,10 @@ var path = require('path'),
     nodemailer = require('nodemailer'),
     ses = require('nodemailer-ses-transport');
 
-var credentials = {
+var sesOptions = {
     accessKeyId: undefined,
-    secretAccessKey: undefined
+    secretAccessKey: undefined,
+    region: 'us-east-1'
 };
 
 // Export the plugin
@@ -24,22 +25,24 @@ module.exports = function(options) {
 
     // First take the credentials that are set by the setters, if those are not defined, take
     // the credentials in the options.
-    credentials.accessKeyId = credentials.accessKeyId || options.accessKeyId;
-    credentials.secretAccessKey = credentials.secretAccessKey || options.secretAccessKey;
+    sesOptions.accessKeyId = sesOptions.accessKeyId || options.accessKeyId;
+    sesOptions.secretAccessKey = sesOptions.secretAccessKey || options.secretAccessKey;
+    sesOptions.region = sesOptions.region || options.region;
 
     var attachments = [],
         transporter = nodemailer.createTransport(ses({
-            accessKeyId: credentials.accessKeyId,
-            secretAccessKey: credentials.secretAccessKey
+            accessKeyId: sesOptions.accessKeyId,
+            secretAccessKey: sesOptions.secretAccessKey,
+            region: sesOptions.region
         }));
 
     return through.obj(function(file, enc, cb) {
-        if(credentials.accessKeyId === undefined) {
+        if(sesOptions.accessKeyId === undefined) {
             // Return an error if no accessKeyId is specified
             cb(new gutil.PluginError('gulp-ses', 'Please provide an access key ID.'));
         }
 
-        if(credentials.secretAccessKey === undefined) {
+        if(sesOptions.secretAccessKey === undefined) {
             // Return an error if no secretAccessKey is specified
             cb(new gutil.PluginError('gulp-ses', 'Please provide a secret access key'));
         }
@@ -80,7 +83,7 @@ module.exports = function(options) {
  * @param {String} accessKeyId The AWS access key ID.
  */
 module.exports.setAccessKeyId = function(accessKeyId) {
-    credentials.accessKeyId = accessKeyId;
+    sesOptions.accessKeyId = accessKeyId;
 };
 
 /**
@@ -89,5 +92,14 @@ module.exports.setAccessKeyId = function(accessKeyId) {
  * @param {String} secretAccessKey The AWS secret access key
  */
 module.exports.setSecretAccessKey = function(secretAccessKey) {
-    credentials.secretAccessKey = secretAccessKey;
+    sesOptions.secretAccessKey = secretAccessKey;
+};
+
+/**
+ * Specify the region to send the service request to. Default to <em>us-east-1</em>.
+ *
+ * @param {String} region The region to send the requests to.
+ */
+module.exports.setRegion = function(region) {
+    sesOptions.region = region;
 };

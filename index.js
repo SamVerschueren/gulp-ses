@@ -60,18 +60,19 @@ module.exports = function(options) {
 
         cb(null, file);
     }, function(cb) {
-        // TODO check options
+        // Remove the options that can't be set from the outside
+        delete options.accessKeyId;
+        delete options.secretAccessKey;
+        delete options.region;
+        delete options.attachments;
 
-        var mailOptions = {
-            from: options.from,
-            to: options.to,
-            subject: options.subject,
-            text: options.text,
-            attachments: attachments
-        };
+        if(attachments.length > 0) {
+            // Set the attachments
+            options.attachments = attachments;
+        }
 
         // Send the mail
-        transporter.sendMail(mailOptions, function(err) {
+        transporter.sendMail(options, function(err) {
             cb(err);
         });
     });

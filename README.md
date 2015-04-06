@@ -1,13 +1,13 @@
 # gulp-ses
 
-> Send emails with Amazon Simple Email Service
+> Send emails with Amazon SES by using [nodemailer](https://github.com/andris9/Nodemailer).
 
 # Installation
 
 > Not yet available
 
 ```bash
-npm install gulp-ses
+npm install --save-dev gulp-ses
 ```
 
 # Usage
@@ -51,6 +51,50 @@ gulp.task('mail', function() {
 ```
 
 This will send an email with ```doc.pdf``` attached as attachment.
+
+### Options
+
+The following are the possible fields of an e-mail message:
+
+  - **from** - The e-mail address of the sender. All e-mail addresses can be plain `'sender@server.com'` or formatted `'Sender Name <sender@server.com>'`, see [here](#address-formatting) for details
+  - **sender** - An e-mail address that will appear on the *Sender:* field
+  - **to** - Comma separated list or an array of recipients e-mail addresses that will appear on the *To:* field
+  - **cc** - Comma separated list or an array of recipients e-mail addresses that will appear on the *Cc:* field
+  - **bcc** - Comma separated list or an array of recipients e-mail addresses that will appear on the *Bcc:* field
+  - **replyTo** - An e-mail address that will appear on the *Reply-To:* field
+  - **inReplyTo** - The message-id this message is replying
+  - **references** - Message-id list (an array or space separated string)
+  - **subject** - The subject of the e-mail
+  - **text** - The plaintext version of the message as an Unicode string, Buffer, Stream or an object *{path: '...'}*
+  - **html** - The HTML version of the message as an Unicode string, Buffer, Stream or an object *{path: '...'}*
+  - **headers** - An object or array of additional header fields (e.g. *{"X-Key-Name": "key value"}* or *[{key: "X-Key-Name", value: "val1"}, {key: "X-Key-Name", value: "val2"}]*)
+  - **alternatives** - An array of alternative text contents (in addition to text and html parts)  (see [nodemailer/alternatives](https://github.com/andris9/Nodemailer#alternatives) for details)
+  - **messageId** - optional Message-Id value, random value will be generated if not set
+  - **date** - optional Date value, current UTC string will be used if not set
+  - **encoding** - optional transfer encoding for the textual parts (defaults to 'quoted-printable')
+
+All text fields (e-mail addresses, plaintext body, html body) use UTF-8 as the encoding.
+
+## Zip multiple files
+
+If you have to send lots of files, you can easily use [gulp-zip](https://github.com/sindresorhus/gulp-zip) to zip all the source
+files and send the zip file as attachment.
+
+```JavaScript
+var zip = require('gulp-zip');
+
+gulp.task('mail', function() {
+    // Send the mail
+    return gulp.src('doc/**/*')
+        .pipe(zip('documentation.zip'))
+        .pipe(mail({
+            from: 'sender@company.com',
+            to: 'recipient@company.com',
+            subject: 'Documentation',
+            text: 'You can find the documentation in the attachment'
+        }));
+});
+```
 
 # Contributors
 

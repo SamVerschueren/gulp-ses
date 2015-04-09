@@ -1,6 +1,6 @@
 # gulp-ses
 
-> Send emails with Amazon SES by using [nodemailer](https://github.com/andris9/Nodemailer).
+> Send emails with [Amazon SES](http://aws.amazon.com/ses/) by using [nodemailer](https://github.com/andris9/Nodemailer).
 
 # Installation
 
